@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import ElementNotVisibleException
 import time
 import csv
 import pandas as pd
@@ -11,26 +12,31 @@ driver.get('https://www.google.com/search?q=3d+model+with+support+structure&tbm=
 
 result = []
 
-for i in range(0, 200):
-    thumbnail_image = driver.find_elements_by_class_name("rg_i")[i]
-    thumbnail_image.click()
-    image = driver.find_elements_by_css_selector(".n3VNCb")
-
-    for k in image:
-        src = k.get_attribute("src")
-        if "https" in src:
-            result.clear()
-            result.append([str(i), src])
-            print(result)
-    print("----")
-
+for i in range(20, 200):
     try:
-        result_df = pd.DataFrame(result, columns=['index', 'img_url'])
-        result_df.to_csv("./result.csv", mode='a', header=False, index=False)
-    except IndexError:
+        thumbnail_image = driver.find_elements_by_class_name("rg_i")[i]
+        thumbnail_image.click()
+        image = driver.find_elements_by_css_selector(".n3VNCb")
+
+        for k in image:
+            src = k.get_attribute("src")
+            if "https" in src:
+                result.clear()
+                result.append([str(i), src])
+                print(result)
+        print("----")
+
+        try:
+            result_df = pd.DataFrame(result, columns=['index', 'img_url'])
+            result_df.to_csv("./result.csv", mode='a', header=False, index=False)
+        except IndexError:
+            pass
+
+        time.sleep(15)
+
+    except ElementNotVisibleException:
         pass
 
-    time.sleep(15)
 
 driver.quit()
 driver.close()
