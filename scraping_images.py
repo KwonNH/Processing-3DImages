@@ -11,18 +11,26 @@ driver.get('https://www.google.com/search?q=3d+model+with+support+structure&tbm=
 
 result = []
 
-for i in range(0, 10):
-    thumbnail_image = driver.find_elements_by_class_name("wXeWr")[i]
+for i in range(0, 200):
+    thumbnail_image = driver.find_elements_by_class_name("rg_i")[i]
     thumbnail_image.click()
-    image = driver.find_element_by_css_selector(".OUZ5W .n3VNCb").get_attribute("src")
-    print("----------------------------")
-    result.append(image)
+    image = driver.find_elements_by_css_selector(".n3VNCb")
 
-    result_df = pd.DataFrame(result, columns=['img_url'])
+    for k in image:
+        src = k.get_attribute("src")
+        if "https" in src:
+            result.clear()
+            result.append([str(i), src])
+            print(result)
+    print("----")
 
-    result_df.to_csv("./result.csv")
+    try:
+        result_df = pd.DataFrame(result, columns=['index', 'img_url'])
+        result_df.to_csv("./result.csv", mode='a', header=False, index=False)
+    except IndexError:
+        pass
 
-    time.sleep(8)
+    time.sleep(15)
 
 driver.quit()
 driver.close()
