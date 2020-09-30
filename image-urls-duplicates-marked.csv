@@ -1,4 +1,4 @@
-index,image,"valid(blank=valid, 1=invalid)",title,image_url
+index,image,valid,title,image_url
 0,,,standard-resin-with-support,https://static.helpjuice.com/helpjuice_production/uploads/upload/image/2889/105014/standard-resin-with-support.jpg
 1,,1,3d-printing-support-structure-1024x340,https://i.materialise.com/blog/wp-content/uploads/2017/04/3d-printing-support-structure-1024x340.jpg
 2,,,standard-resin-3d-print-with-support-struecture,https://i.materialise.com/blog/wp-content/uploads/2017/04/standard-resin-3d-print-with-support-struecture.jpg
@@ -16,6 +16,7 @@ index,image,"valid(blank=valid, 1=invalid)",title,image_url
 14,,,maxresdefault,https://i.ytimg.com/vi/yyTjFpfGsoY/maxresdefault.jpg
 15,,,3d-printing-technology,https://www.tellmehow.co/wp-content/uploads/2017/08/3d-printing-technology.png
 16,,1,3d-printed-resin-changes,https://i.materialise.com/blog/wp-content/uploads/2017/02/3d-printed-resin-changes.jpg
+17,,1,Hit-Panther-by-Will-du-Toit,https://i.materialise.com/img/materials/resins/SamplesGallery/StandardResin/FullSizeImages/Hit-Panther-by-Will-du-Toit.jpg
 17,,1,Hit-Panther-by-Will-du-Toit,https://i.materialise.com/img/materials/resins/SamplesGallery/StandardResin/FullSizeImages/Hit-Panther-by-Will-du-Toit.jpg
 18,,,esun-water-washable-resin,https://i1.wp.com/3dadept.com/wp-content/uploads/2020/06/esun-water-washable-resin.png?fit=3160%2C1374&ssl=1
 19,,1,url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2Farchive%2Fresin-light-3d-printing-2,https://assets.newatlas.com/dims4/default/f0b1a10/2147483647/strip/true/crop/1440x864+0+0/resize/1440x864!/quality/90/?url=http%3A%2F%2Fnewatlas-brightspot.s3.amazonaws.com%2Farchive%2Fresin-light-3d-printing-2.jpg
@@ -182,4 +183,3 @@ index,image,"valid(blank=valid, 1=invalid)",title,image_url
 196,,1,print-stuff-for-you-using-my-resin-printer,"https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/143327426/original/215765646e84973e70fa4f524eb3c2ef6bcce938/print-stuff-for-you-using-my-resin-printer.jpg"
 198,,1,Resin-Exposure-to-IPA-experiment-blog,https://ameralabs.com/uploads/Resin-Exposure-to-IPA-experiment-blog.jpg
 199,,1,f6e0ac63a1f869e0eb0be5fcf7a23be1,https://i.pinimg.com/originals/f6/e0/ac/f6e0ac63a1f869e0eb0be5fcf7a23be1.jpg
-,,80,,

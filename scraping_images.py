@@ -6,6 +6,7 @@ import requests
 from requests.exceptions import SSLError
 from urllib3.exceptions import MaxRetryError
 import re
+import os
 
 
 def get_image_urls():
@@ -96,5 +97,30 @@ def get_image_title():
     urls.to_csv("./result_title_added.csv", index=False)
 
 
+def get_valid_images():
+
+    images = pd.read_csv("./image-urls-duplicates-marked.csv")
+
+    for i in range(len(images)):
+        # valid images
+        if images.iloc[i]['valid'] != 1:
+            '''
+            try:
+                response = requests.get(images.iloc[i]['image_url'])
+
+                file = open("./valid_images/" + str(images.iloc[i]['index']) + ".jpg", "wb")
+                file.write(response.content)
+                file.close()
+            except SSLError:
+                pass
+            except MaxRetryError:
+                pass
+                
+            '''
+
+
+    #os.rename("path/to/current/file.foo", "path/to/new/destination/for/file.foo")
+
+
 if __name__ == "__main__":
-    get_image_title()
+    get_valid_images()
