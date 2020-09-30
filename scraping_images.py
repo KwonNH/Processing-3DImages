@@ -5,6 +5,7 @@ import pandas as pd
 import requests
 from requests.exceptions import SSLError
 from urllib3.exceptions import MaxRetryError
+import re
 
 
 def get_image_urls():
@@ -54,7 +55,7 @@ def download_images_from_urls():
 
     urls = pd.read_csv("./result.csv")
 
-    for i in range(90, len(urls)):
+    for i in range(0, len(urls)):
         print(urls.iloc[i])
 
         try:
@@ -69,5 +70,31 @@ def download_images_from_urls():
             pass
 
 
+def get_image_title():
+
+    urls = pd.read_csv("./result.csv")
+
+    title = []
+
+    for i in range(0, len(urls)):
+
+        url_parts = re.split("/|\?", urls.iloc[i][1])
+
+        for part in url_parts:
+            if "jpg" in part:
+                title.append(part.split(".jpg")[0])
+                break
+            elif "jpeg" in part:
+                title.append(part.split(".jpeg")[0])
+                break
+            elif "png" in part:
+                title.append(part.split(".png")[0])
+                break
+
+    urls['title'] = title
+
+    urls.to_csv("./result_title_added.csv", index=False)
+
+
 if __name__ == "__main__":
-    download_images_from_urls()
+    get_image_title()
