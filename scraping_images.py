@@ -7,6 +7,7 @@ from requests.exceptions import SSLError
 from urllib3.exceptions import MaxRetryError
 import re
 import os
+import pathlib
 
 
 def get_image_urls():
@@ -19,7 +20,7 @@ def get_image_urls():
 
     time.sleep(15)
 
-    for i in range(100, 200):
+    for i in range(201, 250):
         try:
             thumbnail_image = driver.find_elements_by_class_name("rg_i")[i]
             thumbnail_image.click()
@@ -101,26 +102,32 @@ def get_valid_images():
 
     images = pd.read_csv("./image-urls-duplicates-marked.csv")
 
+    valid = []
+
     for i in range(len(images)):
         # valid images
         if images.iloc[i]['valid'] != 1:
-            '''
+            valid.append(images.iloc[i]['index'])
+
             try:
                 response = requests.get(images.iloc[i]['image_url'])
 
-                file = open("./valid_images/" + str(images.iloc[i]['index']) + ".jpg", "wb")
+                image_format = images.iloc[i]['image_url'].split(".")[-1]
+
+                if "?" in image_format:
+                    image_format = image_format.split("?")[0]
+
+                file = open("./valid_images/" + str(images.iloc[i]['index']) + "." + image_format, "wb")
                 file.write(response.content)
                 file.close()
             except SSLError:
                 pass
             except MaxRetryError:
                 pass
-                
-            '''
-
 
     #os.rename("path/to/current/file.foo", "path/to/new/destination/for/file.foo")
 
 
 if __name__ == "__main__":
-    get_valid_images()
+    get_image_urls()
+
