@@ -131,6 +131,7 @@ class RekognitionImage:
         try:
             response = self.rekognition_client.detect_labels(
                 Image=self.image, MaxLabels=max_labels)
+            print(response)
             labels = [RekognitionLabel(label) for label in response['Labels']]
             logger.info("Found %s labels in %s.", len(labels), self.image_name)
         except ClientError:

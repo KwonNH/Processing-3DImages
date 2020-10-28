@@ -8,7 +8,7 @@ from os.path import isfile, join
 
 def gaussian_blur(file_name, coordinates):
     # Read in image
-    image = cv2.imread("./set2/"+file_name+".jpg")
+    image = cv2.imread("./3dimages/set2/" + file_name + ".jpg")
 
     # Create ROI coordinates
     blurred_image = cv2.GaussianBlur(image, (43, 43), 30)
@@ -27,31 +27,30 @@ def gaussian_blur(file_name, coordinates):
     # cv2.imshow('image', image)
     # cv2.waitKey()
 
-    cv2.imwrite('./set2_blurred/', final_image)
+    cv2.imwrite("./3dimages/set2/"+file_name+".jpg", final_image)
 
 
 def xml_to_json(file_name):
-    with open("./3dimages/set2_annotations/"+file_name) as xml_file:
+    with open("./3dimages/set2_annotations/" + file_name) as xml_file:
         data_dict = xmltodict.parse(xml_file.read())
 
     xml_file.close()
 
     json_data = json.dumps(data_dict)
 
-    with open("./3dimages/set2_annotations_json/"+file_name.split(".")[0]+".json", "w") as json_file:
+    with open("./3dimages/set2_annotations_json/" + file_name.split(".")[0] + ".json", "w") as json_file:
         json_file.write(json_data)
 
     json_file.close()
 
 
 def blur_region(id):
-    with open("./3dimages/set2_annotations_json/"+id+".json", "r") as json_file:
+    with open("./3dimages/set2_annotations_json/" + id + ".json", "r") as json_file:
         json_data = json.load(json_file)
 
     points = []
 
     for object in json_data['annotation']['object']:
-
         print(object['polygon']['pt'])
 
     gaussian_blur(id, points)
@@ -65,15 +64,13 @@ if __name__ == "__main__":
     segments = []
     for object in json_data['annotation']['object']:
 
-        polygons = []
+        polygon = []
         for point in object['polygon']['pt']:
-            polygons.append([point['x'], point['y']])
+            polygon.append([point['x'], point['y']])
 
-        segments.append(polygons)
+        print(polygon)
 
-    print(segments)
-
-    gaussian_blur("0", segments)
+        gaussian_blur("0", polygon)
 
     '''
     annotation_path = "./3dimages/set2_annotations"
@@ -81,7 +78,7 @@ if __name__ == "__main__":
 
     for file in files:
         xml_to_json(file)
-    
+
     #xml_to_json("0_blur_test")
 
     with open("./0_blur_test.json", "r") as json_file:
