@@ -17,6 +17,11 @@ from pprint import pprint
 import boto3
 from botocore.exceptions import ClientError
 import requests
+from os import listdir
+from os.path import isfile, join
+import pandas as pd
+import re
+import pprint
 
 from rekognition_objects import (
     RekognitionFace, RekognitionCelebrity, RekognitionLabel,
@@ -202,6 +207,27 @@ class RekognitionImage:
             return celebrities, other_faces
 
 
+def label_detection(file):
+    logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
+    rekognition_client = boto3.client('rekognition')
+    street_scene_file_name = file
+
+    street_scene_image = RekognitionImage.from_file(
+        street_scene_file_name, rekognition_client)
+
+    #print(f"Detecting labels in {street_scene_image.image_name}...")
+    labels = street_scene_image.detect_labels(100)
+    #print(f"Found {len(labels)} labels.")
+
+    result = []
+    for label in labels:
+        result.append(pprint.pformat(label.to_dict()))
+
+    #print(labels_str)
+
+    return result
+
+
 def usage_demo():
     print('-'*88)
     print("Welcome to the Amazon Rekognition image detection demo!")
@@ -301,4 +327,39 @@ def usage_demo():
 
 
 if __name__ == '__main__':
-    usage_demo()
+    original_image_path = "../valid_images/set1/"
+    blurred_image_path = "./3dimages/set1/"
+    original_files = [f for f in listdir(original_image_path) if isfile(join(original_image_path, f))]
+    blurred_files = [f for f in listdir(blurred_image_path) if isfile(join(blurred_image_path, f))]
+
+    #original_files.sort(key=lambda x: int(x.partition(".")[0]))
+
+    files = []
+    for file in original_files:
+
+        try:
+            files.append(int(file.split(".")[0]))
+        except ValueError:
+            pass
+
+    files.sort()
+    #print(files)
+
+    original_labels = []
+    blurred_labels = []
+
+    for file in files:
+        original_labels.append(label_detection(original_image_path + str(file)+".jpg"))
+        blurred_labels.append(label_detection(blurred_image_path + str(file)+".jpg"))
+
+
+    #url_list = pd.read_csv("/Users/kwon/PycharmProjects/3D_A2I/result.csv")
+    result = pd.DataFrame(
+        {'filename': files,
+         'original': original_labels,
+         'blurred': blurred_labels
+         })
+
+    result.to_csv("./rekognition_result_2.csv")
+
+    #label_detection()
