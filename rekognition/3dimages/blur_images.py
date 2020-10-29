@@ -90,6 +90,8 @@ if __name__ == "__main__":
 
     files.sort()
 
+    '''
+
     for file in files:
         with open("./3dimages/set2_annotations_json/" + file, "r") as json_file:
             json_data = json.load(json_file)
@@ -98,12 +100,63 @@ if __name__ == "__main__":
         for object in json_data['annotation']['object']:
 
             polygon = []
+
+            try:
+                for point in object['polygon']['pt']:
+                    polygon.append([point['x'], point['y']])
+                polygons.append(polygon)
+            except TypeError:
+                print(file)
+
+            #gaussian_blur(file.split(".")[0], polygon)
+    '''
+    for file in files:
+        with open("./3dimages/set2_annotations_json/"+file, "r") as json_file:
+            json_data = json.load(json_file)
+
+        polygons = []
+        #print(str(json_data['annotation']['object']).count("polygon"))
+
+        obj_count = str(json_data['annotation']['object']).count("polygon")
+
+        if obj_count != 1:
+            for i in range(obj_count):
+                polygon = []
+                obj = json_data['annotation']['object'][i]
+                if obj['deleted'] == "0":
+                    for point in obj['polygon']['pt']:
+                        polygon.append([point['x'], point['y']])
+
+                    polygons.append(polygon)
+
+
+        else:
+            polygon = []
+            obj = json_data['annotation']['object']
+            if obj['deleted'] == "0":
+                for point in obj['polygon']['pt']:
+                    polygon.append([point['x'], point['y']])
+
+                polygons.append(polygon)
+
+        print(polygons)
+
+    '''
+
+    for i in range(len(json_data['annotation']['object'])):
+
+        print(json_data['annotation']['object']['polygon']['pt'][i])
+
+        polygon = []
+
+        try:
             for point in object['polygon']['pt']:
-                polygon.append([int(point['x']), int(point['y'])])
-
+                polygon.append([point['x'], point['y']])
             polygons.append(polygon)
+        except TypeError:
+            pass
+'''
 
-            gaussian_blur(file.split(".")[0], polygon)
 
     '''
     annotation_path = "./3dimages/set2_annotations"
