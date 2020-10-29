@@ -83,23 +83,27 @@ def remove_overlapping_areas(polygons):
 
 if __name__ == "__main__":
 
-    annotation_path = "./3dimages/set2_annotations"
+    annotation_path = "./3dimages/set2_annotations_json"
+    # image_path = "./3dimages/set2"
     files = [f for f in listdir(annotation_path) if isfile(join(annotation_path, f))]
-    with open("./3dimages/set2_annotations_json/0.json", "r") as json_file:
-        json_data = json.load(json_file)
+    # images = [f for f in listdir(image_path) if isfile(join(image_path, f))]
 
-    polygons = []
-    for object in json_data['annotation']['object']:
+    files.sort()
 
-        polygon = []
-        for point in object['polygon']['pt']:
-            polygon.append([int(point['x']), int(point['y'])])
+    for file in files:
+        with open("./3dimages/set2_annotations_json/" + file, "r") as json_file:
+            json_data = json.load(json_file)
 
-        polygons.append(polygon)
+        polygons = []
+        for object in json_data['annotation']['object']:
 
-        gaussian_blur("0", polygon)
+            polygon = []
+            for point in object['polygon']['pt']:
+                polygon.append([int(point['x']), int(point['y'])])
 
-    remove_overlapping_areas(polygons)
+            polygons.append(polygon)
+
+            gaussian_blur(file.split(".")[0], polygon)
 
     '''
     annotation_path = "./3dimages/set2_annotations"
