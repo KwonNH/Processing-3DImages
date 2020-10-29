@@ -127,7 +127,7 @@ if __name__ == "__main__":
                     for point in obj['polygon']['pt']:
                         polygon.append([point['x'], point['y']])
 
-                    polygons.append(polygon)
+                    gaussian_blur(file.split(".")[0], polygon)
 
 
         else:
@@ -137,7 +137,7 @@ if __name__ == "__main__":
                 for point in obj['polygon']['pt']:
                     polygon.append([point['x'], point['y']])
 
-                polygons.append(polygon)
+                gaussian_blur(file.split(".")[0], polygon)
 
         print(polygons)
 
