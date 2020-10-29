@@ -9,7 +9,7 @@ from shapely.geometry import Polygon
 
 def gaussian_blur(file_name, coordinates):
     # Read in image
-    image = cv2.imread("./3dimages/set2/" + file_name + ".jpg")
+    image = cv2.imread("./3dimages/set1/" + file_name + ".jpg")
 
     # Create ROI coordinates
     blurred_image = cv2.GaussianBlur(image, (43, 43), 30)
@@ -28,25 +28,25 @@ def gaussian_blur(file_name, coordinates):
     # cv2.imshow('image', image)
     # cv2.waitKey()
 
-    cv2.imwrite("./3dimages/set2/"+file_name+".jpg", final_image)
+    cv2.imwrite("./3dimages/set1/"+file_name+".jpg", final_image)
 
 
 def xml_to_json(file_name):
-    with open("./3dimages/set2_annotations/" + file_name) as xml_file:
+    with open("./3dimages/set1_annotations/" + file_name) as xml_file:
         data_dict = xmltodict.parse(xml_file.read())
 
     xml_file.close()
 
     json_data = json.dumps(data_dict)
 
-    with open("./3dimages/set2_annotations_json/" + file_name.split(".")[0] + ".json", "w") as json_file:
+    with open("./3dimages/set1_annotations_json/" + file_name.split(".")[0] + ".json", "w") as json_file:
         json_file.write(json_data)
 
     json_file.close()
 
 
 def blur_region(id):
-    with open("./3dimages/set2_annotations_json/" + id + ".json", "r") as json_file:
+    with open("./3dimages/set1_annotations_json/" + id + ".json", "r") as json_file:
         json_data = json.load(json_file)
 
     points = []
@@ -83,8 +83,8 @@ def remove_overlapping_areas(polygons):
 
 if __name__ == "__main__":
 
-    annotation_path = "./3dimages/set2_annotations_json"
-    # image_path = "./3dimages/set2"
+    annotation_path = "./3dimages/set1_annotations_json"
+    # image_path = "./3dimages/set1"
     files = [f for f in listdir(annotation_path) if isfile(join(annotation_path, f))]
     # images = [f for f in listdir(image_path) if isfile(join(image_path, f))]
 
@@ -93,7 +93,7 @@ if __name__ == "__main__":
     '''
 
     for file in files:
-        with open("./3dimages/set2_annotations_json/" + file, "r") as json_file:
+        with open("./3dimages/set1_annotations_json/" + file, "r") as json_file:
             json_data = json.load(json_file)
 
         polygons = []
@@ -111,7 +111,7 @@ if __name__ == "__main__":
             #gaussian_blur(file.split(".")[0], polygon)
     '''
     for file in files:
-        with open("./3dimages/set2_annotations_json/"+file, "r") as json_file:
+        with open("./3dimages/set1_annotations_json/"+file, "r") as json_file:
             json_data = json.load(json_file)
 
         polygons = []
@@ -159,7 +159,7 @@ if __name__ == "__main__":
 
 
     '''
-    annotation_path = "./3dimages/set2_annotations"
+    annotation_path = "./3dimages/set1_annotations"
     files = [f for f in listdir(annotation_path) if isfile(join(annotation_path, f))]
 
     for file in files:

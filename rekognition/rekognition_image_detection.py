@@ -209,7 +209,7 @@ def usage_demo():
 
     logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
     rekognition_client = boto3.client('rekognition')
-    street_scene_file_name = "./3dimages/set2/0.jpg"
+    street_scene_file_name = "./3dimages/set1/0.jpg"
     '''
     celebrity_file_name = ".media/pexels-pixabay-53370.jpg"
     one_girl_url = 'https://dhei5unw3vrsx.cloudfront.net/images/source3_resized.jpg'
