@@ -4,6 +4,7 @@ import json
 import xmltodict
 from os import listdir
 from os.path import isfile, join
+from shapely.geometry import Polygon
 
 
 def gaussian_blur(file_name, coordinates):
@@ -56,21 +57,49 @@ def blur_region(id):
     gaussian_blur(id, points)
 
 
+def remove_overlapping_areas(polygons):
+
+    for i in range(len(polygons)):
+        for j in range(i+1, len(polygons)):
+            p1 = Polygon(polygons[i])
+            p2 = Polygon(polygons[j])
+
+            if p1.intersects(p2):
+                intersection = p1.intersection(p2)
+
+                print(p1.difference(intersection))
+
+                subtracted = str(p1.difference(intersection)).split("((")[1].split("))")[0].split(", ")
+                '''
+                coords = []
+                print(subtracted)
+                for coord in subtracted:
+                    coords.append([coord.split(" ")[0], coord.split(" ")[1]])
+                print(coords)
+
+                polygons[i] = coords
+                '''
+
+
 if __name__ == "__main__":
 
+    annotation_path = "./3dimages/set2_annotations"
+    files = [f for f in listdir(annotation_path) if isfile(join(annotation_path, f))]
     with open("./3dimages/set2_annotations_json/0.json", "r") as json_file:
         json_data = json.load(json_file)
 
-    segments = []
+    polygons = []
     for object in json_data['annotation']['object']:
 
         polygon = []
         for point in object['polygon']['pt']:
-            polygon.append([point['x'], point['y']])
+            polygon.append([int(point['x']), int(point['y'])])
 
-        print(polygon)
+        polygons.append(polygon)
 
         gaussian_blur("0", polygon)
+
+    remove_overlapping_areas(polygons)
 
     '''
     annotation_path = "./3dimages/set2_annotations"
