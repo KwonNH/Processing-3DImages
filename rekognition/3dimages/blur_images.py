@@ -11,8 +11,22 @@ def gaussian_blur(file_name, coordinates):
     # Read in image
     image = cv2.imread("./3dimages/set1/" + file_name + ".jpg")
 
+    height, width, channels = image.shape
+
     # Create ROI coordinates
-    blurred_image = cv2.GaussianBlur(image, (43, 43), 30)
+    kernal_width = int(width / 80)
+    if kernal_width % 2 != 1:
+        kernal_width += 1
+    kernal_height = int(height / 80)
+    if kernal_height % 2 != 1:
+        kernal_height += 1
+
+    sigma = kernal_height - 1
+
+
+    #blurred_image = cv2.GaussianBlur(image, (43, 43), 30)
+    #blurred_image = cv2.GaussianBlur(image, (9, 9), 8)
+    blurred_image = cv2.GaussianBlur(image, (kernal_height, kernal_width), sigma)
 
     roi_corners = np.array([coordinates], dtype=np.int32)
 
